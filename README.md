@@ -3,7 +3,7 @@
 
 *AutoMS (Automatic Model Selection Using Cluster Indices)* is a **machine learning model recommendation** and **dataset classifiability assessment** toolkit.
 
-Find the documentation [**here**](https://ciams.readthedocs.io/en/latest/).
+Find the documentation [**here**](https://automs.readthedocs.io/en/latest/).
 
 ## Table of Contents
 
