@@ -1,4 +1,7 @@
-# AutoMS
+# CIAMS - Clustering Indices based Automatic classification Model Selection
+
+
+
 ## Automatic Model Selection using Cluster Indices
 
 *AutoMS (Automatic Model Selection Using Cluster Indices)* is a **machine learning model recommendation** and **dataset classifiability assessment** toolkit.
