@@ -1,0 +1,201 @@
+#!/usr/bin/env python
+""" AutoMS configuration wizard """
+import configparser
+import curses
+import multiprocessing
+import os
+import textwrap
+
+import npyscreen
+
+class Dirname(npyscreen.Autocomplete):
+    """ A Custom autocomplete npyscreen widget that autocompletes with directory names only """
+
+    def auto_complete(self, input):
+        # expand ~
+        self.value = os.path.expanduser(self.value)
+
+        for i in range(1):
+            dir, fname = os.path.split(self.value)
+
+            # Let's have absolute paths - abspath('') => current directory
+            dir = os.path.abspath(dir)
+
+            if self.value == '':
+                self.value=dir
+                break
+
+            try:
+                flist = os.listdir(dir)
+            except:
+                self.show_brief_message("Can't read directory!")
+                break
+
+            dlist = list(filter(os.path.isdir, [os.path.join(dir, x) for x in flist]))
+            possibilities = list(filter((lambda x: os.path.split(x)[1].lower().startswith(fname.lower())), dlist)) + list(filter(lambda x: fname in os.path.split(x)[1].lower()[1:] and not os.path.split(x)[1].lower().startswith(fname.lower()), dlist))
+
+            if len(possibilities) == 0:
+                # can't complete, either:
+                #   - current valued directory has no sub-directories
+                #   - fname doesn't match any sub-directories of the directory
+                if os.path.isdir(dir) and fname == '':
+                    self.h_exit_down(None)
+                else:
+                    curses.beep()
+                break
+
+            if len(possibilities) == 1:
+                if self.value != possibilities[0]:
+                    self.value = possibilities[0]
+                if not self.value.endswith(os.sep):
+                    self.value = self.value + os.sep
+                break
+
+            filelist = possibilities
+
+            dirs = []
+
+            for index in range(len(filelist)):
+                if not filelist[index].endswith(os.sep):
+                    filelist[index] = filelist[index] + os.sep
+
+                dirs.append(filelist[index])
+
+            # dirs.sort()
+            # shorten the dirnames and display only last part to enable autocompleting long paths
+            max_dirname_length = max([len(d) for d in dirs])
+            # dirs_choice_strings = [d[max(0, max_dirname_length-50):] for d in dirs]
+            dirs_choice_strings = [('' if len(d) <= 50 else '...') + d[max(0, max_dirname_length-50):] for d in dirs]
+
+            # dirs.insert(0, self.value)
+            self.value = dirs[self.get_choice(dirs_choice_strings)]
+            break
+
+            # Can't complete
+            curses.beep()
+        self.cursor_position=len(self.value)
+
+class TitleDirname(npyscreen.TitleText):
+    _entry_type = Dirname
+
+
+# This application class serves as a wrapper for the initialization of curses
+# and also manages the actual forms of the application
+class AutoMSConfigWizardApp(npyscreen.NPSAppManaged):
+
+    def onStart(self):
+        self.registerForm("MAIN", AutoMSConfigWizardForm())
+
+
+# This form class defines the display that will be presented to the user.
+class AutoMSConfigWizardForm(npyscreen.ActionFormV2):
+
+    CANCEL_BUTTON_BR_OFFSET = (2, 6)
+    OK_BUTTON_BR_OFFSET = (2, 16)
+
+    def __init__(self, *args, **kargs):
+        super(AutoMSConfigWizardForm, self).__init__(*args, **kargs)
+        self.name = "Welcome to AutoMS configuration wizard"
+
+    def create(self):
+
+        # AutoMS warehouse description
+        warehouse_description = "AutoMS warehouse is the default choice of location for storing intermediate files such as data sub-samples and results corresponding to the datasets being processed."
+        warehouse_location_note = "A directory with the specified name in the specified location will be created which will function as the warehouse."
+        wrapped_warehouse_description = textwrap.wrap(warehouse_description, 120)
+        wrapped_warehouse_location_note = textwrap.wrap(warehouse_location_note, 120)
+        wrapped_warehouse_text = wrapped_warehouse_description+['']+wrapped_warehouse_location_note
+
+        warehouse_titlefixedtext = self.add(npyscreen.TitlePager, name="AutoMS warehouse", values=wrapped_warehouse_text,max_height=len(wrapped_warehouse_text)+1, editable=False)
+
+        self.nextrely += 1
+
+        # AutoMS warehouse location directory chooser
+        default_warehouse_location = os.path.expanduser("~") + os.sep
+        self.warehouse_location_titledirname = self.add(TitleDirname, name="AutoMS warehouse location", value=default_warehouse_location, labelColor='STANDOUT')
+
+        self.nextrely += 1
+
+        # AutoMS warehouse directory name
+        default_warehouse_name = "AutomsWarehouse"
+        self.warehouse_name_titletext = self.add(npyscreen.TitleText, name="AutoMS warehouse name", value=default_warehouse_name, labelColor='STANDOUT')
+
+        self.nextrely += 2
+
+        # Approaches
+        approaches_description = "AutoMS offers two alternative approaches for estimating the F1-scores for a dataset corresponding to various classification models."
+        wrapped_approaches_description = textwrap.wrap(approaches_description, 120)
+        warehouse_titlefixedtext = self.add(npyscreen.TitlePager, name="Approaches", values=wrapped_approaches_description,max_height=len(wrapped_approaches_description)+1, editable=False)
+
+        self.add(npyscreen.TitleText, name="Oneshot", value="Processes the dataset as a whole", editable=False, relx=self.nextrelx+16)
+        self.add(npyscreen.TitleText, name="Sub-sampling", value="Sub-samples the dataset into overlapping bags and processes these bags", editable=False, relx=self.nextrelx+16)
+
+        self.nextrely += 1
+
+        # Default approach selector
+        self.default_approach_titleselectone = self.add(npyscreen.TitleSelectOne, max_height=3, value = [0,], name="Default Approach", values=["Oneshot","Sub-sampling"], scroll_exit=True, labelColor='STANDOUT')
+
+        self.nextrely += 2
+
+        # Parallel processing of data subsamples description
+        num_processes_description = "AutoMS parallelly processes subsampled dataset bags using a pool of processes in the sub-sampling approach AND parallelizes the computations within each clustering algorithm using parallel jobs in the oneshot approach."
+        wrapped_num_processes_description = textwrap.wrap(num_processes_description, 120)
+        num_processes_titlefixedtext = self.add(npyscreen.TitlePager, name=f"Parallel processing of dataset subsamples", values=wrapped_num_processes_description, max_height=len(wrapped_num_processes_description)+2, editable=False)
+
+        self.nextrely += 1
+
+        # Default number of processes in pool
+        max_num_processes = multiprocessing.cpu_count()
+        self.default_num_processes_titleslider = self.add(npyscreen.TitleSlider, name="Default number of parallel processes/jobs", lowest=1, out_of=max_num_processes, value=max_num_processes, labelColor='STANDOUT')
+
+
+    def on_ok(self):
+        warehouse_location = os.path.abspath(os.path.expanduser(self.warehouse_location_titledirname.value))
+        warehouse_name = self.warehouse_name_titletext.value 
+        default_approach = self.default_approach_titleselectone.get_selected_objects()[0].lower()
+        default_num_processes = int(self.default_num_processes_titleslider.value)
+
+        ## Create the AutoMS warehouse
+
+        # Expected to catch invalid `warehouse_location` paths
+        if not os.path.isdir(warehouse_location):
+            npyscreen.notify_confirm("Specified warehouse location doesn't exist.", title="ERROR", form_color='DANGER', editw=1)
+
+        elif not os.access(warehouse_location, os.W_OK):
+            npyscreen.notify_confirm("Your user doesn't have write permissions for the specified warehouse location.", title="ERROR", form_color='DANGER', editw=1)
+
+        # Validate `warehouse_name`
+        elif not warehouse_name or os.path.split(warehouse_name) != ('', warehouse_name):
+            npyscreen.notify_confirm("Specified warehouse name is invalid.", title="ERROR", form_color='DANGER', editw=1)
+
+        elif warehouse_name in os.listdir(warehouse_location)+['.','..']:
+            npyscreen.notify_confirm("Directory with the specified warehouse name exists in the specified warehouse location.", title="ERROR", form_color='DANGER', editw=1)
+
+        else:
+            warehouse_path = os.path.join(warehouse_location, warehouse_name)
+            try:
+                os.mkdir(warehouse_path)
+            except Exception as e: 
+                npyscreen.notify_confirm(f"Unexpected error occurred while creating the AutoMS warehouse: \"{e}\"", title="ERROR", form_color='DANGER', editw=1)
+
+            else: 
+                config = configparser.ConfigParser()
+                config['DEFAULT'] = {
+                            'warehouse path': warehouse_path, 
+                            'approach': default_approach, 
+                            'num processes': default_num_processes,
+                        }
+
+                with open(os.path.expanduser('~/.config/automs.ini'), 'w') as config_file:
+                    config.write(config_file)
+
+                npyscreen.notify_confirm("Successfully configured AutoMS!", title='SUCCESS', form_color='GOOD', editw=1)
+                self.parentApp.setNextForm(None)
+
+    def on_cancel(self):
+        self.parentApp.setNextForm(None)
+
+
+if __name__ == '__main__':
+    app = AutoMSConfigWizardApp()
+    app.run()

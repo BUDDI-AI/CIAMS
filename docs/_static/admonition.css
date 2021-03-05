@@ -1,0 +1,11 @@
+div.admonition.note {
+    background-color: #154360;
+}
+
+div.admonition.hint {
+    background-color: #CB4335;
+}
+
+div.admonition.tip {
+    background-color: #1C2833;
+}

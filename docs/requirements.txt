@@ -1,0 +1,5 @@
+# requirements for documentation
+sphinx
+sphinx_bootstrap_theme
+numpydoc
+sphinx-argparse
