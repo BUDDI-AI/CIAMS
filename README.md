@@ -1,4 +1,6 @@
-# AutoMS
+# CIAMS - Clustering Indices based Automatic classification Model Selection
+
+The code for CIAMS is packaged under the name **AutoMS**. 
 ## Automatic Model Selection using Cluster Indices
 
 *AutoMS (Automatic Model Selection Using Cluster Indices)* is a **machine learning model recommendation** and **dataset classifiability assessment** toolkit.
@@ -165,10 +167,11 @@ The AutoMS documentation is hosted at [https://automs.readthedocs.io/](https://a
 
 ## Authors
 
-* [Sudarsun Santhiappan](http://cse.iitm.ac.in/~sudarsun/), IIT Madras
-* [Nitin Shravan](https://www.linkedin.com/in/nitin-shravan-b56bb134/), BUDDI Health
+* [Sudarsun Santhiappan](http://cse.iitm.ac.in/~sudarsun/)
+* [Nitin Shravan](https://www.linkedin.com/in/nitin-shravan-b56bb134/)
+* [Jeshuren Chelladurai](http://jeshuren.me/)
 
 ## Acknowledgments
 
-* [Mukesh Reghu](https://github.com/elixir-code), IIITDM Kancheepuram
-* [Jeshuren Chelladurai](http://jeshuren.me/), IIT Madras
+* [Mukesh Reghu](https://github.com/elixir-code)
+
