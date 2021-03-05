@@ -1,0 +1,23 @@
+# automs==0.1
+cycler==0.10.0
+Cython==0.29.15
+et-xmlfile==1.0.1
+hdbscan==0.8.24
+jdcal==1.4.1
+joblib==0.14.1
+kiwisolver==1.1.0
+matplotlib==3.2.0rc3
+npyscreen==4.10.5
+numpy==1.18.1
+onnxruntime==1.1.2
+openpyxl==3.0.3
+pandas==1.0.1
+pyparsing==2.4.6
+python-dateutil==2.8.1
+pytz==2019.3
+scikit-learn==0.22.2
+scipy==1.4.1
+seaborn==0.10.0
+six==1.14.0
+tqdm==4.43.0
+xgboost==1.0.1
