@@ -166,10 +166,10 @@ The AutoMS documentation is hosted at [https://automs.readthedocs.io/](https://a
 
 ## Authors
 
-* [Sudarsun Santhiappan](http://cse.iitm.ac.in/~sudarsun/), IIT Madras
-* [Nitin Shravan](https://www.linkedin.com/in/nitin-shravan-b56bb134/), BUDDI Health
+* [Sudarsun Santhiappan](http://cse.iitm.ac.in/~sudarsun/)
+* [Nitin Shravan](https://www.linkedin.com/in/nitin-shravan-b56bb134/)
 
 ## Acknowledgments
 
-* [Mukesh Reghu](https://github.com/elixir-code), IIITDM Kancheepuram
-* [Jeshuren Chelladurai](http://jeshuren.me/), IIT Madras
+* [Mukesh Reghu](https://github.com/elixir-code)
+* [Jeshuren Chelladurai](http://jeshuren.me/)
