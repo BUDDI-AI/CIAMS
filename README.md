@@ -171,4 +171,4 @@ The AutoMS documentation is hosted at [https://automs.readthedocs.io/](https://a
 ## Acknowledgments
 
 * [Mukesh Reghu](https://github.com/elixir-code), BUDDI.AI
-* [Jeshuren Chelladurai](http://jeshuren.me/), IIT Madras & BUDDI.AI
+* [Jeshuren Chelladurai](https://jeshuren.github.io/), IIT Madras & BUDDI.AI
