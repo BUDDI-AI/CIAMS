@@ -1,5 +1,5 @@
 # requirements for documentation
-sphinx
-sphinx_bootstrap_theme
-numpydoc
-sphinx-argparse
+sphinx==2.4.2
+sphinx_bootstrap_theme==0.7.1
+numpydoc==0.9.2
+sphinx-argparse==0.2.5
