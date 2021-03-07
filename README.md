@@ -2,9 +2,6 @@
 
 ## The code for CIAMS is packaged under the name **AutoMS**.
 
-
-
-
 *AutoMS (Automatic Model Selection Using Cluster Indices)* is a **machine learning model recommendation** and **dataset classifiability assessment** toolkit.
 
 Find the documentation [**here**](https://automs.readthedocs.io/en/latest/).
@@ -97,7 +94,7 @@ $ echo -e "from automs.config import CsvConfig\nconfig = CsvConfig()" > sonar.cs
 $ cat sonar.csv.config.py
 ```
 
-For examples of the **configuration file content** corresponding to variety of dataset files, refer to the [examples](https://automs.readthedocs.io/examples.html) section in documentation.
+For examples of the **configuration file content** corresponding to variety of dataset files, refer to the [examples](https://automs.readthedocs.io/en/latest/examples.html) section in documentation.
 
 > **Note:**
 > For the dataset file `sonar.csv`, the contents of the dataset configuration file `sonar.csv.config.py` is:
@@ -107,7 +104,7 @@ For examples of the **configuration file content** corresponding to variety of d
 > ```
 > Since, the dataset file in this case is aligned with the default values of the arguments to `CsvConfig` class, no arguments have been **explicitly** passed to `CsvConfig` class in the creation of the `config` object. However, you may need to override some of the default values of the arguments to your data format specific dataset configuration class in the creation of the `config` object, to suit to your dataset file.
 
-For information about the dataset configuration classes corresponding to the various data formats and the arguments they accept, refer to [API documentation of Dataset Configuration Classes](https://automs.readthedocs.io/api.html#dataset-configuration).
+For information about the dataset configuration classes corresponding to the various data formats and the arguments they accept, refer to [API documentation of Dataset Configuration Classes](https://automs.readthedocs.io/en/latest/api.html#dataset-configuration).
 
 ### Step 3: Predicting Classification Complexity and Estimating F1 scores for the dataset
 
@@ -117,7 +114,7 @@ For information about the dataset configuration classes corresponding to the var
 $ automs sonar.csv --oneshot --truef1 --result sonar_results
 ```
 
-For the more information about the **oneshot** and **subsampling** approaches, refers to [What are the oneshot and sub-sampling appeoaches ?](https://automs.readthedocs.io/faq.html#what-are-the-oneshot-and-sub-sampling-approaches) and [When should I use the oneshot and sub-sampling approaches ?](https://automs.readthedocs.io/faq.html#when-should-i-use-the-oneshot-and-sub-sampling-approaches) in the [FAQ](https://automs.readthedocs.io/faq.html) section in documentation.
+For the more information about the **oneshot** and **subsampling** approaches, refers to [What are the oneshot and sub-sampling appeoaches ?](https://automs.readthedocs.io/en/latest/faq.html#what-are-the-oneshot-and-sub-sampling-approaches) and [When should I use the oneshot and sub-sampling approaches ?](https://automs.readthedocs.io/en/latest/faq.html#when-should-i-use-the-oneshot-and-sub-sampling-approaches) in the [FAQ](https://automs.readthedocs.io/en/latest/faq.html) section in documentation.
 
 The predicted classification complexity, estimated f1-score and true f1-score results for the dataset should be available in the `sonar_results` file after the completion of execution of the program.
 
@@ -130,7 +127,7 @@ $ cat sonar_results
 > 
 > The **estimated f1-scores** corresponding to various classifier models should help identify the **candidate top performing classification methods** for the dataset, and help reduce the search space of classification algorithms to be experimented on the dataset.
 
-For more information about the AutoMS command line interface and the arguments it accepts, refer to [API Documentation for AutoMS command line interface](https://automs.readthedocs.io/api.html#command-line-interface).
+For more information about the AutoMS command line interface and the arguments it accepts, refer to [API Documentation for AutoMS command line interface](https://automs.readthedocs.io/en/latest/api.html#command-line-interface).
 
 ```console
 $ automs --help
@@ -146,7 +143,7 @@ $ automs --help
 >>> print(f"True F1-scores = {true_f1_scores}")
 ```
 
-For more information about the AutoMS python interface and the arguments it accepts, refer to [API Documentation for AutoMS python interface](https://automs.readthedocs.io/api.html#python-interface).
+For more information about the AutoMS python interface and the arguments it accepts, refer to [API Documentation for AutoMS python interface](https://automs.readthedocs.io/en/latest/api.html#python-interface).
 
 ```pycon
 >>> from automs.automs import automs
@@ -165,7 +162,7 @@ For more information about the AutoMS python interface and the arguments it acce
 
 ## Documentation
 
-The AutoMS documentation is hosted at [https://automs.readthedocs.io/](https://automs.readthedocs.io/).
+The AutoMS documentation is hosted at [https://automs.readthedocs.io/](https://automs.readthedocs.io/en/latest/).
 
 ## Authors
 
