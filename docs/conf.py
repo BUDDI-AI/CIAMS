@@ -30,7 +30,6 @@ sys.path.insert(0, source_directory)
 # -- Project information -----------------------------------------------------
 
 project = 'AutoMS'
-copyright = '2020, Robert Bosch Centre for Data Science and Artificial Intelligence (RBCDSAI)'
 author = 'Sudarsun Santhiappan <mail@sudarsun.in>, Nitin Shravan <ntnshrav@gmail.com>, Mukesh Reghu <reghu.mukesh@gmail.com>'
 
 # The full version, including alpha/beta/rc tags
@@ -134,6 +133,9 @@ html_theme_options = {
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+
+# Remove the copyright info from footer
+html_show_copyright = False
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
