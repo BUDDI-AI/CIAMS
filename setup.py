@@ -9,7 +9,7 @@ def readme():
 
 setup(
     name = "automs", # name of the package
-    version = "0.1", # Version 0.1 Final Release
+    version = "0.1.0", # Version 0.1 Final Release
 
     description = "Automatic Model Selection Using Cluster Indices",
     long_description = readme(),
